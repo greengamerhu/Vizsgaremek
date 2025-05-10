@@ -1,0 +1,43 @@
+
+services:
+  web:
+    build: ./vizsgaremek_frontend
+    ports:
+      - "1234:1234"
+    environment:
+      NODE_ENV: development
+    stdin_open: true
+    tty: true
+    command: npm start
+  app:
+    build: ./VizsgaRemek_BackEnd
+    container_name: nest_app
+    restart: always
+    env_file: .env
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    networks:
+      - nest_network
+
+  db:
+    image: mysql
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ''
+      MYSQL_DATABASE: vizsgadb
+      MYSQL_ALLOW_EMPTY_PASSWORD : 'yes'
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./dbdump:/docker-entrypoint-initdb.d/
+    networks:
+      - nest_network
+
+networks:
+  nest_network:
+
+volumes:
+  mysql_data:
