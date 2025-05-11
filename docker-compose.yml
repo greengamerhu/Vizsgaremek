@@ -4,12 +4,17 @@ services:
     build: ./vizsgaremek_frontend
     ports:
       - "1234:1234"
+    working_dir: /app
+    volumes:
+      - ./frontend:/app   
     environment:
       NODE_ENV: development
     stdin_open: true
     tty: true
     command: npm start
-  app:
+    depends_on:
+      - backend
+  backend:
     build: ./VizsgaRemek_BackEnd
     container_name: nest_app
     restart: always
