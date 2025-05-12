@@ -3,15 +3,11 @@ services:
   web:
     build: ./vizsgaremek_frontend
     ports:
-      - "1234:1234"
-    working_dir: /app
-    volumes:
-      - ./frontend:/app   
+      - "3000:3000"
     environment:
       NODE_ENV: development
     stdin_open: true
     tty: true
-    command: npm start
     depends_on:
       - backend
   backend:
@@ -20,7 +16,7 @@ services:
     restart: always
     env_file: .env
     ports:
-      - "3000:3000"
+      - "3001:3001"
     depends_on:
       - db
     networks:
