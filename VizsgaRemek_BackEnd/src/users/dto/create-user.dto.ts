@@ -16,7 +16,7 @@ export default class RegisterUserDto {
     @IsNotEmpty({message: "Az a Név mező nem lehet üres"})
     @Contains(' ', {message: "A név kell tartalmaznia egy szóközt"})
     @ApiProperty({
-        description : "A user teljes neve cíne, kell tartalmaznia a szóközt",
+        description : "A user teljes neve címe, kell tartalmaznia a szóközt",
         type : 'string',
         example : "Teszt Elek",
         required : true,
@@ -32,7 +32,7 @@ export default class RegisterUserDto {
         required : true,
     })
     password: string;
-    @IsNotEmpty({message : "Az újra-jelszü mező nem lehet üres"})
+    @IsNotEmpty({message : "Az újra-jelszó mező nem lehet üres"})
     @ApiProperty({
         description : "A user jelszava mégegyszer",
         type : 'string',

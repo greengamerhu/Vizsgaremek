@@ -24,7 +24,9 @@ async function bootstrap() {
    const document = SwaggerModule.createDocument(app, config);
    SwaggerModule.setup('docs', app, document);
   app.enableCors({
-    origin: '*',
+    origin: ['http://localhost:3000', 'http://192.168.1.7:3000'],
+    credentials : true,
+    allowedHeaders: ['Content-Type', 'Authorization'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     preflightContinue: false,
     optionsSuccessStatus: 204,
@@ -37,6 +39,6 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({forbidUnknownValues: false}));
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   
-  await app.listen(process.env.PORT || 3000);
+  await app.listen(process.env.PORT || 3000, '0.0.0.0');
 }
 bootstrap();

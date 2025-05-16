@@ -25,7 +25,7 @@ export class UsersService {
       throw new BadRequestException('Minden mező kötelező')
     }
     if (!(registerDto.password == registerDto.repassword)) {
-      throw new BadRequestException('A jelszónak egyezniük kell')
+      throw new BadRequestException(['A jelszónak egyezniük kell'])
     } 
     if (IsEmailExist) {
       throw new BadRequestException('ez az email cim már be van regisztrálva, jelentkezz be')
