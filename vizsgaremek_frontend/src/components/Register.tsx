@@ -25,7 +25,7 @@ const Register = () => {
   };
 
 
-  return (  isLoggedIn() ? <Navigate to="/store" replace></Navigate> :
+  return (  isLoggedIn ? <Navigate to="/store" replace></Navigate> :
     <>
       <Container maxWidth="xs">
         <CssBaseline />
