@@ -7,11 +7,8 @@ import { useEffect } from "react"
 
 export function Navbar() {
   const {isLoggedIn, logout} = useAuth()
-  const { openCart, cartQuantity, getCartItems } = useShoppingCart()
+  const { openCart, cartQuantity } = useShoppingCart()
 
-useEffect(() => {
-  getCartItems()
-});
   return (
     <NavbarBs  sticky="top" className="bg-black shadow-sm mb-3" data-bs-theme="dark">
       <Container>
@@ -35,7 +32,7 @@ useEffect(() => {
          
         </Nav>
         
-        {cartQuantity > 0 && (
+        {cartQuantity > 0 && isLoggedIn && (
         
           <Button
             onClick={openCart}
