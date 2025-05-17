@@ -1,8 +1,7 @@
-import { Button, Container, Dropdown, Nav, Navbar as NavbarBs, NavDropdown } from "react-bootstrap"
+import { Button, Container,  Nav, Navbar as NavbarBs, NavDropdown } from "react-bootstrap"
 import { NavLink } from "react-router-dom"
 import { useShoppingCart } from "../context/ShoppingCartContext"
 import { useAuth } from "../context/authContext"
-import { useEffect } from "react"
 
 
 export function Navbar() {
@@ -24,8 +23,7 @@ export function Navbar() {
           (isLoggedIn) ?  <NavDropdown title="Profil" >
             <NavDropdown.Item>Szállítási címek</NavDropdown.Item>
             <NavDropdown.Item>Rendeléseim</NavDropdown.Item>
-            <NavDropdown.Item ><Nav.Link to="/login" as={NavLink} onClick={()=>logout()}>Kijelentkezés</Nav.Link></NavDropdown.Item>
-            
+            <NavDropdown.Item onClick={()=>logout()}>Kijelentkezés </NavDropdown.Item>
           </NavDropdown> : 
           <Nav.Link to="/login" as={NavLink}>Bejelentkezés</Nav.Link>}
 
