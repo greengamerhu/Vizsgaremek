@@ -9,6 +9,7 @@ import Login from "./components/Login"
 import Register from "./components/Register"
 import { AuthProvider } from "./context/authContext"
 import { ToastContainer } from "react-toastify"
+import ShippingAddressList from "./components/ShippingAdresses"
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/adress" element={<ShippingAddressList />} />
         </Routes>
       <ToastContainer toastStyle={{backgroundColor : '#272927'}} />
       </Container>

@@ -1,13 +1,16 @@
 import { Button, Container,  Nav, Navbar as NavbarBs, NavDropdown } from "react-bootstrap"
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import { useShoppingCart } from "../context/ShoppingCartContext"
 import { useAuth } from "../context/authContext"
 
 
 export function Navbar() {
+  const navigate = useNavigate()
   const {isLoggedIn, logout} = useAuth()
   const { openCart, cartQuantity } = useShoppingCart()
-
+  function adresses() {
+    navigate('/adress')
+  }
   return (
     <NavbarBs  sticky="top" className="bg-lightdarkmodenavbar shadow-sm mb-3" data-bs-theme="dark">
       <Container>
@@ -21,7 +24,7 @@ export function Navbar() {
 
           {
           (isLoggedIn) ?  <NavDropdown title="Profil" >
-            <NavDropdown.Item>Szállítási címek</NavDropdown.Item>
+            <NavDropdown.Item onClick={()=> adresses()}>Szállítási címek</NavDropdown.Item>
             <NavDropdown.Item>Rendeléseim</NavDropdown.Item>
             <NavDropdown.Item onClick={()=>logout()}>Kijelentkezés </NavDropdown.Item>
           </NavDropdown> : 
