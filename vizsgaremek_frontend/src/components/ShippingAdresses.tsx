@@ -16,18 +16,23 @@ import {
   ListItemButton,
   Divider,
   ThemeProvider,
+  IconButton,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 import type { addressItem} from '../types/adressItem';
 import { getAddresItems } from '../hooks/useAddress';
 import { darkTheme } from './Register';
-import { postAdress } from '../hooks/postAdress';
+import { deleteAddressApi, postAddressApi } from '../api/AdressesApi';
+import { formatErrorMessage } from '../utilities/formatErrorMessage';
+import { toast } from 'react-toastify';
+import http from '../api/http';
 
 
 
 const ShippingAddressList: React.FC = () => {
-    const {AdressItems, loading, error} = getAddresItems()
+    const {AdressItems, loading, error, refetch} = getAddresItems()
+    const [errorMessage, setErrorMessage] = useState('')
     const [open, setOpen] = useState(false);
     const [formData, setFormData] = useState<addressItem>({
         id: 0,
@@ -36,8 +41,8 @@ const ShippingAddressList: React.FC = () => {
         address : '',
         mobileNumber : ''
     }) ;
-
-
+  
+    
 
 
 
@@ -53,15 +58,41 @@ const ShippingAddressList: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
+
+
  function handleSubmit(event : FormEvent)  {
     event.preventDefault()
-    handleClose()
+    
 
     console.log(formData)
-    const {postError} = postAdress(formData)
-    console.log(postError)
+    postAddressApi(formData)
+        .then((res) => {if (res.status == 201) {
+           toast.warning("Sikeres Cím felvétel")
+           refetch()
+           handleClose()
+        }
+         })
+        .catch((err) =>  {
+          formatErrorMessage(err.response.data.message).map( err => {
+              toast.warning(err) } )})
+        .finally()
+    
  }
+ function deleteAddress(id : number) {
+    deleteAddressApi(id)
+    .then((res) => {
+        if(res.status == 200) {
+          console.log(res)
+          refetch()  
+        }
+    }
 
+    )
+    .catch((err) => {
+       formatErrorMessage(err.response.data.message).map( err => {
+          toast.warning(err) } )
+    })
+ }
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -78,11 +109,13 @@ const ShippingAddressList: React.FC = () => {
         <List >
           {AdressItems.map(addr => (
             <Box border={1} borderColor={'#672e71'} borderRadius={'16px'}>
-            <ListItem key={addr.id}>
+            <ListItem   key={addr.id}>
               <ListItemText
                 primary={`${addr.postalCode} ${addr.city}, ${addr.address} ${addr.mobileNumber}`}
               />
-               <ListItemButton ><DeleteIcon color='primary'/> Törlés</ListItemButton>
+            <IconButton onClick={() => deleteAddress(addr.id)} edge="end" aria-label="delete">
+                      <DeleteIcon />
+                    </IconButton>
 
             </ListItem>
             </Box>
@@ -145,6 +178,7 @@ const ShippingAddressList: React.FC = () => {
           <Button type='submit'  variant="contained">
             Mentés
           </Button>
+            <p>{errorMessage}</p>
         </DialogActions>
         </form>
       </Dialog>

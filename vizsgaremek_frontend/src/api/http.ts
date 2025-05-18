@@ -1,8 +1,8 @@
-// services/http.ts
+
 import axios from 'axios';
 
 const http = axios.create({
-  baseURL: import.meta.env.VITE_API_URL, // vagy akár .env-ből
+  baseURL: import.meta.env.VITE_API_URL, 
   timeout: 5000,
   withCredentials : true,
   headers: {
@@ -10,9 +10,9 @@ const http = axios.create({
   },
 });
 
-// Ha van auth token, ide beállíthatod automatikusan minden kéréshez:
+
 http.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token'); // vagy máshonnan
+  const token = localStorage.getItem('token'); 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

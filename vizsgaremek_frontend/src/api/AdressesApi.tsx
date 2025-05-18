@@ -1,4 +1,4 @@
-import type { addressItem } from "../types/adressItem"
+import type { addressItem, addressResponse } from "../types/adressItem"
 import http from "./http"
 
 export async function getAddressesListApi() : Promise<addressItem[]> {
@@ -7,5 +7,9 @@ export async function getAddressesListApi() : Promise<addressItem[]> {
 }
 export async function postAddressApi(adressItem: addressItem) {
     const response = await http.post("/user-address", adressItem)
+    return response
+}
+export async function deleteAddressApi(id : number) {
+    const response = await http.delete('/user-address/' + id )
     return response
 }

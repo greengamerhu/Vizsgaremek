@@ -5,7 +5,7 @@ import http from "./http"
 export async function getCartItemsAPi(): Promise<CartResponse> {
     const response = await http.get("/cart")
     return response.data
-    
+ 
 }
 export async function updateCartItemsApi(quantity : number, menuItem : MenuItem) {
     const response = await http.patch("/cart", {

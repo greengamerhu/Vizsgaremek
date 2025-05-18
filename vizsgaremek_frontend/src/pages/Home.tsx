@@ -6,6 +6,6 @@ import { useAuth } from "../context/authContext";
 
 export function Home() {
   return <Container>
-    <h1>Halal</h1>
+   
   </Container>
 }

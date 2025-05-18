@@ -1,6 +1,6 @@
 
 export interface addressResponse{
-    addressItems : addressItem[]
+    address : addressItem[]
 } 
 export interface addressItem {
     id : number;
