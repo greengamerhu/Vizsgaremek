@@ -9,7 +9,7 @@ export function Navbar() {
   const { openCart, cartQuantity } = useShoppingCart()
 
   return (
-    <NavbarBs  sticky="top" className="bg-black shadow-sm mb-3" data-bs-theme="dark">
+    <NavbarBs  sticky="top" className="bg-lightdarkmodenavbar shadow-sm mb-3" data-bs-theme="dark">
       <Container>
         <Nav className="me-auto">
           <Nav.Link to="/" as={NavLink}>
@@ -26,7 +26,7 @@ export function Navbar() {
             <NavDropdown.Item onClick={()=>logout()}>Kijelentkezés </NavDropdown.Item>
           </NavDropdown> : 
           <Nav.Link to="/login" as={NavLink}>Bejelentkezés</Nav.Link>}
-
+          
          
         </Nav>
         

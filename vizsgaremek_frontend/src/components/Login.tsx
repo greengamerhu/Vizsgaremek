@@ -8,10 +8,12 @@ import {
   TextField,
   Button,
   Grid,
+  ThemeProvider,
 } from "@mui/material";
 import {  useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
+import { darkTheme } from "./Register";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -22,7 +24,10 @@ const Login = () => {
   };
 
   return (
+    
     isLoggedIn ?  <Navigate to="/store" replace></Navigate> :
+        <ThemeProvider theme={darkTheme}>
+    
       <Container maxWidth="xs">
         <CssBaseline />
         <Box
@@ -36,14 +41,14 @@ const Login = () => {
           <Avatar sx={{ m: 1, bgcolor: "primary.light" }}>
             <LockOutlined />
           </Avatar>
-          <Typography variant="h5">Login</Typography>
+          <Typography variant="h5">Bejelentkezés</Typography>
           <Box sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label="Email Cím"
               name="email"
               autoFocus
               value={email}
@@ -55,7 +60,7 @@ const Login = () => {
               fullWidth
               id="password"
               name="password"
-              label="Password"
+              label="Jelszó"
               type="password"
               value={password}
               onChange={(e) => {
@@ -68,16 +73,17 @@ const Login = () => {
               sx={{ mt: 3, mb: 2 }}
               onClick={handleLogin}
             >
-              Login
+              Bejelentkezés
             </Button>
             <Grid container justifyContent={"flex-end"}>
               <Grid>
-                <Link to="/register">Don't have an account? Register</Link>
+                <Link to="/register">Nincs még fiókod? Regisztrálj</Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
       </Container>
+      </ThemeProvider>
   );
 };
 

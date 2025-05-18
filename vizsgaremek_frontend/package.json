@@ -19,7 +19,8 @@
     "react": "^19.1.0",
     "react-bootstrap": "^2.10.9",
     "react-dom": "^19.1.0",
-    "react-toastify": "^11.0.5"
+    "react-toastify": "^11.0.5",
+    "sass-embedded": "1.77.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",

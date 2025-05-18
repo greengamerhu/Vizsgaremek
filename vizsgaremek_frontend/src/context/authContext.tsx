@@ -3,7 +3,7 @@ import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import React from "react";
-import { loginApi, registerAPi } from "../api/AuthApi";
+import { loginApi, logOutApi, registerAPi } from "../api/AuthApi";
 import { formatErrorMessage } from "../utilities/formatErrorMessage";
 
 type AuthContextType = {
@@ -49,21 +49,18 @@ export const AuthProvider = ({ children }: Props) => {
           navigate("/login");
         }
       })
-      .catch((e) => { if(e.response.status != 201) {
+      .catch((e) => { if(!(e.code == "ERR_NETWORK")  && e.response.status != 201) {
             formatErrorMessage(e.response.data.message).map( err => {
                 console.log(err)
                 toast.warning(err)  
             })
-
-            // console.log(formatErrorMessage(e.response.data.message))
       } else {
-        
+        toast.warning("A szerver nem elérhető")
       }
         });
   };
 
   const loginUser = async (username: string, password: string) => {
-    console.log("gec")
     await loginApi(username, password)
       .then((res) => {
         if (res) {
@@ -77,21 +74,42 @@ export const AuthProvider = ({ children }: Props) => {
           setIsLoggedIn(true)
           
 
-          toast.success("Login Success!");
+          toast.success("Sikeres Bejelentkezés!");
         }
       })
-      .catch((e) => toast.warning(e));
+      .catch((e) => { if(!(e.code == "ERR_NETWORK")  && e.response.status != 201 ) {
+            formatErrorMessage(e.response.data.message).map( err => {
+                console.log(err)
+                toast.warning(err)  
+            })
+
+            // console.log(formatErrorMessage(e.response.data.message))
+      } else {
+        toast.warning("A szerver nem elérhető")
+      }
+        });
   };
 
 
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    // setUser(null);
-    setToken("");
-    setIsLoggedIn(false)
-    navigate("/");
+  const logout = async () => {
+    await logOutApi()
+    .then((res) => {
+      if(res) {
+        localStorage.removeItem("token");
+        setToken("");
+        setIsLoggedIn(false)
+        navigate("/");
+      }
+    }).catch((e) => {
+      if(e.response.status == 401) {
+        setToken("")
+        setIsLoggedIn(false)
+        navigate("/")
+      }
+    })
+
+  
   };
 
   return (

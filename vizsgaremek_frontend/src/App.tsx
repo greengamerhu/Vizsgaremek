@@ -3,11 +3,11 @@ import { Container } from "react-bootstrap"
 import { Home } from "./pages/Home"
 import { Store } from "./pages/Store"
 import { About } from "./pages/About"
-import { Navbar } from "./components/Navbar"
+import { Navbar } from "./components/navbar"
 import { ShoppingCartProvider } from "./context/ShoppingCartContext"
 import Login from "./components/Login"
 import Register from "./components/Register"
-import { AuthProvider, useAuth } from "./context/authContext"
+import { AuthProvider } from "./context/authContext"
 import { ToastContainer } from "react-toastify"
 
 function App() {
@@ -23,9 +23,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
-      <ToastContainer />
-
+      <ToastContainer toastStyle={{backgroundColor : '#272927'}} />
       </Container>
+
     </ShoppingCartProvider>
   </AuthProvider>
   )

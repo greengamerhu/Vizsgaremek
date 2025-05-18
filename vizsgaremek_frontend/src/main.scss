@@ -2,10 +2,27 @@
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/variables-dark";
 
+
 $custom-colors: (
-    "purpleprimary" : $purple-700
+    "purpleprimary" :#9c27b0,
+    "lightdarkmodenavbar" : #272927,
+    "purplesecondary": #672e71,
+    "purpleaccent" : #ac18c5
 );
 
 $theme-colors: map-merge($theme-colors, $custom-colors );
+
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/root";
+
+
+
+
+@include color-mode(dark) {
+  --bs-body-bg: #121212!important;
+
+  
+}
 
 @import "bootstrap/scss/bootstrap"
