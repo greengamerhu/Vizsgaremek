@@ -1,4 +1,5 @@
-import { Col, Container, Row } from "react-bootstrap"
+import { Container,  Typography } from "@mui/material";
+import Grid from "@mui/material/Grid";
 import { StoreItem } from "../components/StoreItem"
 import { getMenuitems } from "../hooks/useMenuItems"
 import type { MenuItem } from "../types/menuItem"
@@ -10,16 +11,18 @@ export function Store() {
   if (error) return <p>Hiba történt: {error}</p>;
   return (
     <>
-      <Container>
-        <h1>Store</h1>
-      <Row   md={2} xs={1} lg={3} className="g-3">
-        {menuItems.map(item => (
-          <Col key={item.food_id}>
+    <Container sx={{ py: 4 }}>
+      <Typography variant="h4" gutterBottom>
+        Étlap
+      </Typography>
+      <Grid container spacing={3}>
+        {menuItems.map((item) => (
+          <Grid  size={{xs:12, sm:6, md: 4}} key={item.food_id}>
             <StoreItem {...item} />
-          </Col>
+          </Grid>
         ))}
-      </Row>
-      </Container>
+      </Grid>
+    </Container>
       
     </>
   )

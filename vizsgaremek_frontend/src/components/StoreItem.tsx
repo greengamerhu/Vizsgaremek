@@ -1,8 +1,10 @@
-import { Button, Card } from "react-bootstrap"
+
 import { useShoppingCart } from "../context/ShoppingCartContext"
 import { formatCurrency } from "../utilities/formatCurrency"
 import type { MenuItem } from "../types/menuItem"
 import '../main.scss'
+import { Box, Button, Card, CardActions, CardContent, CardMedia, ThemeProvider, Typography } from "@mui/material"
+import { darkTheme } from "./Register"
 
 export function StoreItem({ food_id, food_name, food_price, food_image, food_description, food_category }: MenuItem) {
   const { addToCart } = useShoppingCart()
@@ -10,30 +12,73 @@ export function StoreItem({ food_id, food_name, food_price, food_image, food_des
   
 
   return (
-    <Card className="h-100 border-purpleprimary" >
-      <Card.Img
-        variant="top"
-        src={"http://192.168.1.7:3001/burgers/"+  food_image}
-        height="300px"
-        style={{ objectFit: "fill" }}
-      />
-      <Card.Body className="d-flex flex-column">
-        <Card.Title className="d-flex justify-content-between align-items-baseline mb-4">
-          <span className="fs-2">{food_name}</span>
-          <span className="ms-2 text-muted">{formatCurrency(food_price)}</span>
-        </Card.Title>
-        <Card.Text className="text-center">
-          <span className="fst-italic">{food_description}</span>
-         
-        </Card.Text>
-        <div className="mt-auto">
-          {(
-            <Button className="w-100 bg-purpleprimary border border-purpleprimary" onClick={() => addToCart({ food_id, food_name, food_price, food_image, food_description, food_category })}>
-              + Add To Cart
-            </Button>
-          )}
-        </div>
-      </Card.Body>
-    </Card>
+   <ThemeProvider theme={darkTheme}>
+      <Card
+        sx={{
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          border: "1px solid #672e71",
+          borderRadius: 3,
+          bgcolor: "#1A2027",
+        }}
+      >
+        <CardMedia
+          component="img"
+          height="200"
+          image={`http://192.168.1.7:3001/burgers/${food_image}`}
+          alt={food_name}
+          sx={{ objectFit: "cover" }}
+        />
+        <CardContent sx={{ flexGrow: 1 }}>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="baseline"
+            mb={2}
+          >
+            <Typography variant="h6" color="white">
+              {food_name}
+            </Typography>
+            <Typography variant="subtitle1" color="text.secondary">
+              {formatCurrency(food_price)}
+            </Typography>
+          </Box>
+          <Typography
+            variant="body2"
+            fontStyle="italic"
+            textAlign="center"
+            color="text.secondary"
+          >
+            {food_description}
+          </Typography>
+        </CardContent>
+        <CardActions sx={{ mt: "auto", p: 2 }}>
+          <Button
+            fullWidth
+            variant="contained"
+            sx={{
+              backgroundColor: "#672e71",
+              "&:hover": {
+                backgroundColor: "#87458e",
+              },
+              fontWeight: "bold",
+            }}
+            onClick={() =>
+              addToCart({
+                food_id,
+                food_name,
+                food_price,
+                food_image,
+                food_description,
+                food_category,
+              })
+            }
+          >
+            + Kosárba
+          </Button>
+        </CardActions>
+      </Card>
+    </ThemeProvider>
   )
 } 
