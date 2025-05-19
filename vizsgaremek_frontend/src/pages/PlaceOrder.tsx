@@ -1,5 +1,5 @@
 import { toast, ToastContainer } from "react-toastify";
-import { Box, Button, Divider, FormControl, FormHelperText, InputLabel, MenuItem, Paper, Select, Stack, styled, ThemeProvider, Typography, type SelectChangeEvent,  } from "@mui/material";
+import { Box, Button, Card, CardContent, CircularProgress, Divider, FormControl, FormHelperText, InputLabel, MenuItem, Paper, Select, Stack, styled, ThemeProvider, Typography, type SelectChangeEvent,  } from "@mui/material";
 import { useState, type ReactNode } from "react";
 import { darkTheme } from "../components/Register";
 import { useShoppingCart } from "../context/ShoppingCartContext";
@@ -12,7 +12,7 @@ import { useAuth } from "../context/authContext";
 import { Navigate } from "react-router-dom";
 
 
-export function Order() {
+export function PlaceOrder() {
   const [selectedAddressId, setSelectedAddressId] = useState("");
   const [selectedAddress, setSelectedAddress] = useState<addressItem>();
   const {isLoggedIn} = useAuth()
@@ -54,11 +54,18 @@ export function Order() {
     backgroundColor: '#1A2027',
   }),
 }));
-  return ( !isLoggedIn ? <Navigate to="/" replace></Navigate> : <div>
+  return ( !isLoggedIn ? (<Navigate to="/" replace></Navigate> ): 
+  loading ? (
+               <CircularProgress />
+  ) :
+  (<div>
+    
     <ThemeProvider theme={darkTheme}>
+    <Box  sx={{  p:2}}> 
+
    <Stack spacing={2}>
-    <Box  sx={{   border : '1px solid purple', p:4}}>
-      <Typography sx={{ml : 4, }} variant="h5" gutterBottom>Válasszon ki szállítási címet</Typography>
+      <Paper  elevation={3} sx={{ p: 4, mb: 4 }}>
+      <Typography sx={{mb : 5 }} variant="h5" gutterBottom>Válasszon ki szállítási címet</Typography>
             <FormControl fullWidth sx={{ }} >
         <InputLabel id="demo-simple-select-helper-label">Szállítási cím</InputLabel>
         <Select
@@ -78,38 +85,60 @@ export function Order() {
      
         </Select>
       </FormControl>
-    </Box>
-    <Box  sx={{width : '100%', borderColor : 'purple', border : '1px solid purple'}}>
-      <Typography sx={{ml : 4, mt: 2}} variant="h5" gutterBottom>Rendelés Összesítő</Typography>
-        <Stack    sx={{m:4, }}  spacing={3} >
+      </Paper>
+        <Paper sx={{p:4}} elevation={3}>
+      <Typography sx={{mb: 4}} variant="h5" gutterBottom>Rendelés Összesítő</Typography>
+        <Stack    sx={{ }}  spacing={3} >
             {cartItems.map(item => (
-              <Item>
-        <Stack  sx={{justifyContent: "space-between",alignItems: "start"}} direction={{ sm: 'row' } }
-            spacing={{ xs: 1, sm: 2, md: 12 }}>   
-            <Stack>
-                 <span>{item.menuItem.food_name}</span>
-        <span>{item.quantity}db</span>
-              </Stack>  
-     
-        <span>{item.total} Ft</span>
-        </Stack>
-        </Item>
+              <Card key={item.id} variant="outlined" sx={{ backgroundColor: "#1A2027", color: "#fff"}}>
+                <CardContent>
+                  <Stack
+                    direction={{ xs: 'column', sm: 'row' }}
+                    justifyContent="space-between"
+                    alignItems={{ xs: 'flex-start', sm: 'center' }}
+                    spacing={2}
+                  >
+                    <Stack>
+                      <Typography variant="h6">{item.menuItem.food_name}</Typography>
+                      <Typography variant="body2">{item.quantity} db × {item.menuItem.food_price} Ft / db</Typography>
+                    </Stack>
+                    <Typography variant="body1" fontWeight="bold">
+                      {item.total} Ft
+                    </Typography>
+                  </Stack>
+                </CardContent>
+              </Card>
             ))}
         </Stack>
-    </Box>
-       <Box  sx={{   border : '1px solid purple', p:4}}>
-        <Stack >
-          <Typography  variant="h5" gutterBottom>Összesen: {cartTotal} Ft</Typography>
-            <Button
-              fullWidth
-              variant="contained"
-              sx={{  }}
-              onClick={handleSubmitOrder}
-            >Rendelés Leadása</Button>
-        </Stack>
+        </Paper>
+            <Paper sx={{ p: 4, backgroundColor: '#1A2027', color: '#fff' }} elevation={4}>
+              <Stack
+                direction={{ xs: 'column', sm: 'row' }}
+                justifyContent="space-between"
+                alignItems="center"
+                spacing={3}
+              >
+                <Box>
+                  <Typography variant="h6" gutterBottom>Rendelés végösszeg: </Typography>
+                  <Typography variant="h4" fontWeight="bold" color="secondary.main">
+                    {cartTotal} Ft
+                  </Typography>
+                </Box>
 
-    </Box>
+                <Button
+                  variant="contained"
+                  size="large"
+                  color="primary"
+                  sx={{ px: 4, py: 1.5, fontWeight: 'bold', fontSize: '1rem' }}
+                  onClick={handleSubmitOrder}
+                >
+                  Rendelés Leadása
+                </Button>
+              </Stack>
+            </Paper>
 </Stack>
+    </Box>
+
 </ThemeProvider>
-  </div>)
+  </div>))
 }

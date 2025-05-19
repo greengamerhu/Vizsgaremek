@@ -13,9 +13,9 @@ export function StoreItem({ food_id, food_name, food_price, food_image, food_des
     <Card className="h-100 border-purpleprimary" >
       <Card.Img
         variant="top"
-        src={food_image}
-        height="200px"
-        style={{ objectFit: "cover" }}
+        src={"http://192.168.1.7:3001/burgers/"+  food_image}
+        height="300px"
+        style={{ objectFit: "fill" }}
       />
       <Card.Body className="d-flex flex-column">
         <Card.Title className="d-flex justify-content-between align-items-baseline mb-4">
@@ -36,4 +36,4 @@ export function StoreItem({ food_id, food_name, food_price, food_image, food_des
       </Card.Body>
     </Card>
   )
-}
+} 

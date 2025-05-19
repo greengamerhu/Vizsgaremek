@@ -12,8 +12,8 @@ export function CartItem( item : CartItem) {
   return (
     <Stack direction="horizontal" gap={2} className="d-flex align-items-center">
       <img
-        src=""
-        style={{ width: "125px", height: "75px", objectFit: "cover" }}
+        src={"http://192.168.1.7:3001/burgers/" + item.menuItem.food_image}
+        style={{ width: "125px", height: "75px", objectFit: "fill" }}
       />
       <div className="me-auto">
         <div>

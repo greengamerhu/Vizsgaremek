@@ -1,26 +1,181 @@
-[
-  {
-    "id": 1,
-    "name": "Book",
-    "price": 10.99,
-    "imgUrl": "/imgs/book.jpg"
-  },
-  {
-    "id": 2,
-    "name": "Computer",
-    "price": 1199,
-    "imgUrl": "/imgs/computer.jpg"
-  },
-  {
-    "id": 3,
-    "name": "Banana",
-    "price": 1.05,
-    "imgUrl": "/imgs/banana.jpg"
-  },
-  {
-    "id": 4,
-    "name": "Car",
-    "price": 14000,
-    "imgUrl": "/imgs/car.jpg"
-  }
-]
+{
+    "activeOrder": {
+        "id": "7d2d26c2-7959-4ca7-b0a0-74a68f75580e",
+        "status": "Feldolgozás alatt",
+        "total": 39600,
+        "orderDate": "2025-05-19T13:28:45.000Z",
+        "orderItems": [
+            {
+                "id": "b760f55c-933f-4abf-a31f-5934a3cdafe6",
+                "food_name": "Sajtburger",
+                "food_description": "frissen sült húspogácsa sajttal, friss saláta, paradicsom és vöröshagyma a frissen sütött zsemlében, különleges szósszal tálalva",
+                "food_category": "Burger",
+                "food_price": 2000,
+                "quantity": 1,
+                "total": 2000
+            },
+            {
+                "id": "cae64e21-0ed4-42f1-b5d5-97f2df967e53",
+                "food_name": "Jalapeño Burger",
+                "food_description": "Próbálja ki a jalapeno burgerünk pikáns ízét, amelyben szaftos húspogácsa, friss zöldségek, cheddar sajt és friss jalapeno paprika találkoznak egy friss zsemlében.",
+                "food_category": "Burger",
+                "food_price": 5100,
+                "quantity": 1,
+                "total": 5100
+            },
+            {
+                "id": "cf4d48ed-0bdd-43c1-8c52-9e3bd89aaa16",
+                "food_name": "Klasszikus burger",
+                "food_description": "Ha az egyszerűséget kedveli, akkor a klasszikus burgerünk a megfelelő választás! Friss, szaftos húspogácsa, cheddar sajt, friss zöldségek és ízletes szósz, mindez egy friss zsemlében tálalva.",
+                "food_category": "Burger",
+                "food_price": 3900,
+                "quantity": 5,
+                "total": 19500
+            },
+            {
+                "id": "d491e103-056c-4c3c-b30f-d56e7531438d",
+                "food_name": "Csibe Burger",
+                "food_description": "Ha szereti az egyszerű, mégis ínycsiklandó ízeket, akkor a csirkeburgerünk a tökéletes választás! Friss, ropogós csirkehús, finom szószok és friss zöldségek, amelyek garantáltan élvezetet nyújtanak.",
+                "food_category": "Burger",
+                "food_price": 4200,
+                "quantity": 1,
+                "total": 4200
+            },
+            {
+                "id": "e9717b05-af09-4575-bf92-d02ebb94091f",
+                "food_name": "Bacon Burger",
+                "food_description": "Kóstolja meg a bacon burgerünk pikáns és szaftos ízeit, amelyben friss zöldségek, szaftos húspogácsa és ropogós bacon csíkok találkoznak egy friss zsemlében..",
+                "food_category": "Burger",
+                "food_price": 3900,
+                "quantity": 1,
+                "total": 3900
+            },
+            {
+                "id": "ed22119f-8977-408f-bdbf-487fc7f2c5e4",
+                "food_name": "Pulled Pork",
+                "food_description": "Szereti a füstös és szaftos ízeket? Akkor próbálja ki a pulled pork Burgerünket, füstölt sertéshúsból készítve, különleges fűszerekkel ízesítve és szaftos szósszal tálalva...",
+                "food_category": "Burger",
+                "food_price": 4900,
+                "quantity": 1,
+                "total": 4900
+            }
+        ],
+        "selectedAddress": {
+            "id": 35,
+            "address": "asd",
+            "city": "asd",
+            "postalCode": "2234",
+            "mobileNumber": "214235"
+        }
+    },
+    "orderHistory": [
+        {
+            "id": "27c52a4a-23ae-408a-970e-b147de0a4a57",
+            "status": "Kiszállítva",
+            "total": 13400,
+            "orderDate": "2023-04-27T13:34:59.000Z",
+            "orderItems": [
+                {
+                    "id": "60bd12b8-7309-4d06-a5f0-19cfe3c972eb",
+                    "food_name": "Klasszikus burger",
+                    "food_description": "Ha az egyszerűséget kedveli, akkor a klasszikus burgerünk a megfelelő választás! Friss, szaftos húspogácsa, cheddar sajt, friss zöldségek és ízletes szósz, mindez egy friss zsemlében tálalva.",
+                    "food_category": "Burger",
+                    "food_price": 3900,
+                    "quantity": 2,
+                    "total": 7800
+                },
+                {
+                    "id": "cc8f0080-e57d-4919-93bf-43bb402e0f27",
+                    "food_name": "Vegán Burger",
+                    "food_description": "Szeretné élvezni egy finom és egészséges étel ízét? Válassza a vegán burgerünket, amelyet friss zöldségekből készítünk, ínycsiklandó szószokkal és fűszerekkel, hogy minden falat ízletes és tápláló legyen.",
+                    "food_category": "Vega",
+                    "food_price": 5600,
+                    "quantity": 1,
+                    "total": 5600
+                }
+            ],
+            "selectedAddress": {
+                "id": 35,
+                "address": "asd",
+                "city": "asd",
+                "postalCode": "2234",
+                "mobileNumber": "214235"
+            }
+        },
+        {
+            "id": "44362214-f5e9-405c-b9b2-c1376ea567bb",
+            "status": "Kiszállítva",
+            "total": 23300,
+            "orderDate": "2023-04-27T13:37:35.000Z",
+            "orderItems": [
+                {
+                    "id": "27d4a61c-69f4-4482-a395-84524ce8620b",
+                    "food_name": "Tres Burger",
+                    "food_description": "Ha nagy éhséggel küzd, akkor a tripla burgerünk a tökéletes választás! Friss, ropogós zsemlében, három szaftos húspogácsával és gazdag ízekkel.",
+                    "food_category": "Burger",
+                    "food_price": 5000,
+                    "quantity": 1,
+                    "total": 5000
+                },
+                {
+                    "id": "aaedf2dc-38b4-4c08-a3e7-eee2727186b1",
+                    "food_name": "Tojásos burger",
+                    "food_description": "Kóstolja meg a tojásos burgerünk ínycsiklandó ízeit! Szaftos húspogácsa, friss zöldségek és egy finom tojás, mindez egy friss zsemlében tálalva.",
+                    "food_category": "Burger",
+                    "food_price": 2500,
+                    "quantity": 1,
+                    "total": 2500
+                },
+                {
+                    "id": "bf6a3856-10fc-4414-bec3-5ac44be2a49d",
+                    "food_name": "Sajtburger",
+                    "food_description": "frissen sült húspogácsa sajttal, friss saláta, paradicsom és vöröshagyma a frissen sütött zsemlében, különleges szósszal tálalva",
+                    "food_category": "Burger",
+                    "food_price": 2000,
+                    "quantity": 3,
+                    "total": 6000
+                },
+                {
+                    "id": "fe48f66c-2f54-45a1-a228-3707a27f554d",
+                    "food_name": "Pulled Pork",
+                    "food_description": "Szereti a füstös és szaftos ízeket? Akkor próbálja ki a pulled pork Burgerünket, füstölt sertéshúsból készítve, különleges fűszerekkel ízesítve és szaftos szósszal tálalva...",
+                    "food_category": "Burger",
+                    "food_price": 4900,
+                    "quantity": 2,
+                    "total": 9800
+                }
+            ],
+            "selectedAddress": {
+                "id": 35,
+                "address": "asd",
+                "city": "asd",
+                "postalCode": "2234",
+                "mobileNumber": "214235"
+            }
+        },
+        {
+            "id": "97a17bb5-794f-47b3-9fc3-511d43bb2d35",
+            "status": "Kiszállítva",
+            "total": 3900,
+            "orderDate": "2023-04-27T13:38:34.000Z",
+            "orderItems": [
+                {
+                    "id": "da0c1ab7-66d7-4013-bdb4-96dcb9e0b5e3",
+                    "food_name": "Klasszikus burger",
+                    "food_description": "Ha az egyszerűséget kedveli, akkor a klasszikus burgerünk a megfelelő választás! Friss, szaftos húspogácsa, cheddar sajt, friss zöldségek és ízletes szósz, mindez egy friss zsemlében tálalva.",
+                    "food_category": "Burger",
+                    "food_price": 3900,
+                    "quantity": 1,
+                    "total": 3900
+                }
+            ],
+            "selectedAddress": {
+                "id": 35,
+                "address": "asd",
+                "city": "asd",
+                "postalCode": "2234",
+                "mobileNumber": "214235"
+            }
+        }
+    ]
+}

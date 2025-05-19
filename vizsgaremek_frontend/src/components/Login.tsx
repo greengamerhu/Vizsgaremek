@@ -11,7 +11,7 @@ import {
   ThemeProvider,
 } from "@mui/material";
 import {  useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
 import { darkTheme } from "./Register";
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, type FormEvent } from 'react';
+import React, {  useState, type FormEvent } from 'react';
 import {
   Box,
   Button,
@@ -13,8 +13,6 @@ import {
   ListItemText,
   CircularProgress,
   Alert,
-  ListItemButton,
-  Divider,
   ThemeProvider,
   IconButton,
 } from '@mui/material';
@@ -26,7 +24,6 @@ import { darkTheme } from './Register';
 import { deleteAddressApi, postAddressApi } from '../api/AdressesApi';
 import { formatErrorMessage } from '../utilities/formatErrorMessage';
 import { toast } from 'react-toastify';
-import http from '../api/http';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/authContext';
 
@@ -112,8 +109,8 @@ const ShippingAddressList: React.FC = () => {
       ) : (
         <List >
           {AdressItems.map(addr => (
-            <Box border={1} borderColor={'#672e71'} borderRadius={'16px'}>
-            <ListItem   key={addr.id}>
+            <Box key={addr.id } border={1} borderColor={'#672e71'} borderRadius={'16px'}>
+            <ListItem   >
               <ListItemText
                 primary={`${addr.postalCode} ${addr.city}, ${addr.address} ${addr.mobileNumber}`}
               />

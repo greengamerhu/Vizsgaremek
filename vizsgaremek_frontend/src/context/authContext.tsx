@@ -44,8 +44,7 @@ export const AuthProvider = ({ children }: Props) => {
     await registerAPi(fullName,email, password,repassword)
       .then((res) => {
         if (res) {
-
-          toast.success("register Success!");
+          toast.success("Sikeres regisztráció!");
           navigate("/login");
         }
       })
@@ -102,10 +101,13 @@ export const AuthProvider = ({ children }: Props) => {
         navigate("/");
       }
     }).catch((e) => {
-      if(e.response.status == 401) {
+      if(e.status == 401) {
         setToken("")
         setIsLoggedIn(false)
         navigate("/")
+      } else{
+        console.log(e)
+        toast.warning(e.message)
       }
     })
 

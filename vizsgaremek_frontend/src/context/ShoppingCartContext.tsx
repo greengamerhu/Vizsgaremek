@@ -4,6 +4,7 @@ import { useLocalStorage } from "../hooks/useLocalStorage"
 import type { CartItem, CartResponse } from "../types/cartitem"
 import { addToCartApi, deleteCartItemsApi, getCartItemsAPi, updateCartItemsApi } from "../api/shoppingCartApi"
 import type { MenuItem } from "../types/menuItem"
+import { toast } from "react-toastify"
 
 type ShoppingCartProviderProps = {
   children: ReactNode
@@ -61,7 +62,7 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
       if(res.status == 201) {
         getCartItems()
       }
-    }).catch((e) => console.log(e))
+    }).catch((e) => toast.warning(e.message))
   }
   async function increaseCartQuantity(cartitem : CartItem) {
     await updateCartItemsApi(cartitem.quantity+ 1, cartitem.menuItem ).then((res) => {
@@ -69,7 +70,7 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
         getCartItems()
       }
 
-    }).catch((e) => console.log(e))
+    }).catch((e) => toast.warning(e.message))
     
   }
   async function decreaseCartQuantity(cartitem : CartItem) {
@@ -81,7 +82,7 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
         getCartItems()
       }
 
-    }).catch((e) => console.log(e))
+    }).catch((e) => toast.warning(e.message))
     
   }
   async function removeFromCart(cartitemid : string) {
@@ -89,8 +90,7 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
       if(res.status == 200) {
         getCartItems()
       }
-      console.log(res.status)
-    })
+    }).catch((e) => toast.warning(e.message))
   
   }
 

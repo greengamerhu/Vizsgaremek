@@ -1,7 +1,11 @@
-import { Offcanvas, Stack } from "react-bootstrap"
+import {  Offcanvas, Stack } from "react-bootstrap"
 import { useShoppingCart } from "../context/ShoppingCartContext"
 import { CartItem } from "./CartItem"
 import { formatCurrency } from "../utilities/formatCurrency"
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+import { Button, ThemeProvider } from "@mui/material"
+import { darkTheme } from "./Register"
 
 type ShoppingCartProps = {
   isOpen: boolean
@@ -9,9 +13,18 @@ type ShoppingCartProps = {
 
 export function ShoppingCart({ isOpen }: ShoppingCartProps) {
   const { closeCart, cartItems, cartTotal, cartQuantity } = useShoppingCart()
-  if(cartQuantity == 0) {
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (cartQuantity === 0 && isOpen) {
+      closeCart();
+    }
+  }, [cartQuantity, isOpen, closeCart]);
+
+  function goToCheckout(): void {
+    navigate('/placeOrder')
     closeCart()
   }
+
   return (
     <Offcanvas show={isOpen} onHide={closeCart} placement="end">
       <Offcanvas.Header closeButton>
@@ -25,9 +38,12 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
             <CartItem key={item.id} {...item} />
           ))}
           <div className="ms-auto fw-bold fs-5">
-            Total{" "}
-            {formatCurrency(cartTotal)}
+            Összesen: {" "}
+            {(cartTotal)}
           </div>
+          <ThemeProvider theme={darkTheme}>
+          <Button  variant="contained" onClick={()=> goToCheckout()}>Tovább a pénztárhoz</Button>
+          </ThemeProvider>
         </Stack>
         }
         

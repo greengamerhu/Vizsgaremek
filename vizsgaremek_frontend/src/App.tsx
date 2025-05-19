@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom"
 import { Container } from "react-bootstrap"
-import {  Order } from "./pages/PlaceOrder"
+import {  PlaceOrder, } from "./pages/PlaceOrder"
 import { Store } from "./pages/Menu"
-import { About } from "./pages/About"
+import { Orders } from "./pages/orders"
 import { Navbar } from "./components/navbar"
 import { ShoppingCartProvider } from "./context/ShoppingCartContext"
 import Login from "./components/Login"
@@ -20,11 +20,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Store/>} />
           <Route path="/menu" element={<Store />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/orders" element={<Orders />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/address" element={<ShippingAddressList />} />
-          <Route path="/placeOrder" element={<Order />} />
+          <Route path="/placeOrder" element={<PlaceOrder />} />
         </Routes>
       <ToastContainer toastStyle={{backgroundColor : '#272927'}} />
       </Container>

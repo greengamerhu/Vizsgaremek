@@ -11,6 +11,9 @@ export function Navbar() {
   function adresses() {
     navigate('/address')
   }
+  function orders() {
+    navigate('/orders')
+  }
   return (
     <NavbarBs  sticky="top" className="bg-lightdarkmodenavbar shadow-sm mb-3" data-bs-theme="dark">
       <Container>
@@ -22,7 +25,7 @@ export function Navbar() {
           {
           (isLoggedIn) ?  <NavDropdown title="Profil" >
             <NavDropdown.Item onClick={()=> adresses()}>Szállítási címek</NavDropdown.Item>
-            <NavDropdown.Item>Rendeléseim</NavDropdown.Item>
+            <NavDropdown.Item onClick={() => orders()}>Rendeléseim</NavDropdown.Item>
             <NavDropdown.Item onClick={()=>logout()}>Kijelentkezés </NavDropdown.Item>
           </NavDropdown> : 
           <Nav.Link to="/login" as={NavLink}>Bejelentkezés</Nav.Link>}
