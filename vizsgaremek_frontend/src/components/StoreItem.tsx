@@ -28,7 +28,7 @@ export function StoreItem({ food_id, food_name, food_price, food_image, food_des
           height="200"
           image={`http://192.168.1.7:3001/burgers/${food_image}`}
           alt={food_name}
-          sx={{ objectFit: "cover" }}
+          sx={{ objectFit: "contain" }}
         />
         <CardContent sx={{ flexGrow: 1 }}>
           <Box
@@ -64,7 +64,7 @@ export function StoreItem({ food_id, food_name, food_price, food_image, food_des
               },
               fontWeight: "bold",
             }}
-            onClick={() =>
+            onClick={()=>
               addToCart({
                 food_id,
                 food_name,
