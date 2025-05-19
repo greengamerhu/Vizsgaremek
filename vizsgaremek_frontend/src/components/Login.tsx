@@ -25,7 +25,7 @@ const Login = () => {
 
   return (
     
-    isLoggedIn ?  <Navigate to="/store" replace></Navigate> :
+    isLoggedIn ?  <Navigate to="/" replace></Navigate> :
         <ThemeProvider theme={darkTheme}>
     
       <Container maxWidth="xs">

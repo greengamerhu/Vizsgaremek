@@ -40,7 +40,7 @@ const Register = () => {
   };
 
 
-  return (  isLoggedIn ? <Navigate to="/store" replace></Navigate> :
+  return (  isLoggedIn ? <Navigate to="/" replace></Navigate> :
     <>
     <ThemeProvider theme={darkTheme}>
       <Container maxWidth="xs">

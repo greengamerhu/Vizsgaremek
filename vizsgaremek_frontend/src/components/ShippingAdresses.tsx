@@ -27,6 +27,8 @@ import { deleteAddressApi, postAddressApi } from '../api/AdressesApi';
 import { formatErrorMessage } from '../utilities/formatErrorMessage';
 import { toast } from 'react-toastify';
 import http from '../api/http';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../context/authContext';
 
 
 
@@ -34,6 +36,8 @@ const ShippingAddressList: React.FC = () => {
     const {AdressItems, loading, error, refetch} = getAddresItems()
     const [errorMessage, setErrorMessage] = useState('')
     const [open, setOpen] = useState(false);
+    const {isLoggedIn} = useAuth()
+    
     const [formData, setFormData] = useState<addressItem>({
         id: 0,
         postalCode :'',
@@ -67,7 +71,7 @@ const ShippingAddressList: React.FC = () => {
     console.log(formData)
     postAddressApi(formData)
         .then((res) => {if (res.status == 201) {
-           toast.warning("Sikeres Cím felvétel")
+           toast.success("Sikeres Cím felvétel")
            refetch()
            handleClose()
         }
@@ -94,7 +98,7 @@ const ShippingAddressList: React.FC = () => {
     })
  }
 
-  return (
+  return (  !isLoggedIn ? <Navigate to="/" replace></Navigate> :
     <ThemeProvider theme={darkTheme}>
     <Box>
       <Typography variant="h5" gutterBottom>
