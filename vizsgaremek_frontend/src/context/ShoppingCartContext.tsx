@@ -5,6 +5,7 @@ import type { CartItem, CartResponse } from "../types/cartitem"
 import { addToCartApi, deleteCartItemsApi, getCartItemsAPi, updateCartItemsApi } from "../api/shoppingCartApi"
 import type { MenuItem } from "../types/menuItem"
 import { toast } from "react-toastify"
+import { useAuth } from "./authContext"
 
 type ShoppingCartProviderProps = {
   children: ReactNode
@@ -35,8 +36,11 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [cartItems, setCartItems] = useState<CartItem[]>([])
   const [cartTotal, setCartTotal] = useState(0)
+  const {isLoggedIn} =  useAuth()
   useEffect(() => {
-    getCartItems()
+    if(isLoggedIn) {
+      getCartItems()
+    }
 
   }, [])
 
@@ -49,7 +53,11 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
     await getCartItemsAPi().then((res) => {
       setCartItems(res.shoppingCart)
       setCartTotal(parseInt(res.sumTotal))
+      
     }).catch((e) => console.log(e))
+    .finally(() => {
+      cartQuantity = cartItems.length 
+    })
   }
 
   

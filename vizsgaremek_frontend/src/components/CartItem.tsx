@@ -1,8 +1,10 @@
-import { Button, Stack } from "react-bootstrap"
+
 import { useShoppingCart } from "../context/ShoppingCartContext"
 import { formatCurrency } from "../utilities/formatCurrency"
 import type { CartItem, CartResponse } from "../types/cartitem"
-
+import { Box, IconButton, Stack, Typography } from "@mui/material"
+import AddIcon from '@mui/icons-material/Add'
+import RemoveIcon from '@mui/icons-material/Remove'
 
 
 export function CartItem( item : CartItem) {
@@ -10,33 +12,38 @@ export function CartItem( item : CartItem) {
   if (item.menuItem == null) return null
 
   return (
-    <Stack direction="horizontal" gap={2} className="d-flex align-items-center">
-      <img
-        src={"http://192.168.1.7:3001/burgers/" + item.menuItem.food_image}
-        style={{ width: "125px", height: "75px", objectFit: "contain" }}
-      />
-      <div className="me-auto">
-        <div>
-          {item.menuItem.food_name}{" "}  
-             <div
-                className="d-flex align-items-center justify-content-center"
-                style={{ gap: ".5rem" }}
-              >
-                <Button size="sm"  variant="outline-danger" onClick={() => decreaseCartQuantity(item)}>-</Button>
-                <div>
-                  <span className="fs-4">{item.quantity}</span>x
-                </div>
-                <Button size="sm" variant="outline-success" onClick={() => increaseCartQuantity(item)}>+</Button>
-              </div>
+    <Stack direction="row" spacing={2} alignItems="center">
+  <Box
+    component="img"
+    src={`http://192.168.1.7:3001/burgers/${item.menuItem.food_image}`}
+    sx={{ width: 100, height: 75, objectFit: 'fill' }}
+  />
 
-        </div>
-  
-        <div className="text-muted" style={{ fontSize: ".75rem" }}>
-          {formatCurrency(item.menuItem.food_price)}
-        </div>
-      </div>
-      <div> {formatCurrency(item.total)}</div>
+  <Box flex={1}>
+    <Typography variant="subtitle1">{item.menuItem.food_name}</Typography>
 
+    <Stack direction="row" spacing={1} alignItems="center" justifyContent="center">
+      <IconButton
+        size="small"
+        color="error"
+        onClick={() => decreaseCartQuantity(item)}
+      >
+        <RemoveIcon />
+      </IconButton>
+      <Typography variant="h6">{item.quantity}x</Typography>
+      <IconButton
+        size="small"
+        color="success"
+        onClick={() => increaseCartQuantity(item)}
+      >
+        <AddIcon />
+      </IconButton>
     </Stack>
+
+
+  </Box>
+
+  <Typography>{formatCurrency(item.total)}</Typography>
+</Stack>
   )
 }

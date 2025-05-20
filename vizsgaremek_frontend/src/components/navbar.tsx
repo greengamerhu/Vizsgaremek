@@ -2,12 +2,21 @@ import { Button, Container,  Nav, Navbar as NavbarBs, NavDropdown } from "react-
 import { NavLink, useNavigate } from "react-router-dom"
 import { useShoppingCart } from "../context/ShoppingCartContext"
 import { useAuth } from "../context/authContext"
+import { useEffect } from "react"
 
 
 export function Navbar() {
   const navigate = useNavigate()
   const {isLoggedIn, logout} = useAuth()
-  const { openCart, cartQuantity } = useShoppingCart()
+  
+  const { getCartItems ,openCart, cartQuantity } = useShoppingCart()
+    useEffect(() => {
+    if(isLoggedIn) {
+      getCartItems()
+      console.log("halo ")
+    }
+
+  }, [])
   function adresses() {
     navigate('/address')
   }
@@ -34,7 +43,7 @@ export function Navbar() {
         </Nav>
         
         {cartQuantity > 0 && isLoggedIn && (
-        
+          
           <Button
             onClick={openCart}
             style={{ width: "3rem", height: "3rem", position: "relative" }}

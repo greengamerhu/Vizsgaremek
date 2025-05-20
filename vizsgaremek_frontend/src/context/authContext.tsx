@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import React from "react";
 import { loginApi, logOutApi, registerAPi } from "../api/AuthApi";
 import { formatErrorMessage } from "../utilities/formatErrorMessage";
+import { useShoppingCart } from "./ShoppingCartContext";
 
 type AuthContextType = {
 //   user: UserProfile | null;
@@ -98,7 +99,7 @@ export const AuthProvider = ({ children }: Props) => {
         localStorage.removeItem("token");
         setToken("");
         setIsLoggedIn(false)
-        navigate("/");
+        navigate("/login");
       }
     }).catch((e) => {
       if(e.status == 401) {

@@ -9,7 +9,7 @@ import type { addressItem } from "../types/adressItem";
 import { postOrderApi } from "../api/orderApi";
 import { formatErrorMessage } from "../utilities/formatErrorMessage";
 import { useAuth } from "../context/authContext";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 
 export function PlaceOrder() {
@@ -18,6 +18,7 @@ export function PlaceOrder() {
   const {isLoggedIn} = useAuth()
   const {cartItems, cartTotal} = useShoppingCart()
   const {AdressItems, loading, error} = getAddresItems()
+  const navigate = useNavigate()
   
   function handleChange(event: SelectChangeEvent): void {
     const selected = AdressItems.find(item => item.id === parseInt(event.target.value)) || null;
@@ -34,6 +35,7 @@ export function PlaceOrder() {
     if(selectedAddress) {
       postOrderApi(selectedAddress).then((res) => {if (res.status == 201) {
                toast.success("Sikeres rendelés leadás")
+               navigate('/orders')
             }
              })
             .catch((err) =>  {
