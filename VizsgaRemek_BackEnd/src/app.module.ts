@@ -22,10 +22,32 @@ import { Order } from './order/entities/order.entity';
 import { OrderItems } from './order/entities/orderItems.entity';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './roles/roles.guard';
+import { LoggerModule } from 'nestjs-pino/LoggerModule';
 
 
 @Module({
   imports: [
+    LoggerModule.forRoot({
+      pinoHttp: {
+        transport: {
+          targets: [
+            {
+              target: 'pino/file',
+              options: { destination: 'logs/app.log', mkdir: true },
+              
+          //      target: 'pino-pretty',
+          // options: {
+          //   colorize: true,
+          //   translateTime: 'yyyy-mm-dd HH:MM:ss',
+          //   ignore: 'pid,hostname',
+          // },
+            },
+          ],
+        },
+        
+      },
+      
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST || 'localhost',
@@ -38,6 +60,7 @@ import { RolesGuard } from './roles/roles.guard';
         /* List of entities here */
       ],
       synchronize: true,
+      
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public')

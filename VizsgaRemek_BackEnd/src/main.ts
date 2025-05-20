@@ -1,4 +1,5 @@
 import * as dotenv from 'dotenv';
+import { Logger } from 'nestjs-pino';
 dotenv.config();
 
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
@@ -10,8 +11,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    logger : ["error", "verbose", "log", "fatal", "warn"]
-  });
+    logger : ["error", "verbose", "log", "fatal", "warn"],
+    bufferLogs : true
+  }, );
   /*
      Here it's assumed that public and views are in the root directory,
      alongside with src. You can put them wherever you want, 
@@ -31,7 +33,7 @@ async function bootstrap() {
     preflightContinue: false,
     optionsSuccessStatus: 204,
   });
-
+  app.useLogger(app.get(Logger));
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('ejs');

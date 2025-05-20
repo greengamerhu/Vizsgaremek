@@ -5,14 +5,14 @@ import { DataSource } from 'typeorm';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { Cart } from './entities/cart.entity';
-
+import { Logger } from 'nestjs-pino';
 interface subTotal {
     subTotal : string
 }
 
 @Injectable()
 export class CartService {
-  constructor(private dataSource: DataSource) {}
+  constructor(private dataSource: DataSource, private readonly logger: Logger) {}
   /**
    * kosárba rakás és ha többször nyom rá akkor hozzáad egyet a quantity-hez
    * @param createCartDto A kosár létrehozásához szükséges adatok
@@ -24,13 +24,17 @@ export class CartService {
     const menuRepo = this.dataSource.getRepository(Menu)
     const MenuItemExist =  await menuRepo.findOne({where: { food_id : createCartDto.menuItem.food_id}});
     if( createCartDto.menuItem.food_id == undefined ||MenuItemExist == null) {
+      this.logger.warn(`A(z) ${user.email} felhasználó nem létező ételt próbált hozzáadni (ID: ${createCartDto.menuItem.food_id})`);
       throw new BadRequestException("az étel nem található")
     }
     const AlreadyInTheCart = await cartRepo.findOne({where: {user : user, menuItem : createCartDto.menuItem}, relations : {user : true, menuItem : true}});
     if(AlreadyInTheCart) {
       AlreadyInTheCart.quantity += createCartDto.quantity
       AlreadyInTheCart.total = AlreadyInTheCart.menuItem.food_price * AlreadyInTheCart.quantity
-      cartRepo.save(AlreadyInTheCart)
+        this.logger.log(
+        `A(z) ${user.email} felhasználó növelte a(z) ${AlreadyInTheCart.menuItem.food_name} Id: {${AlreadyInTheCart.menuItem.food_id}} étel mennyiségét ${AlreadyInTheCart.quantity} darabra.`,
+      );
+      await cartRepo.save(AlreadyInTheCart)
       return;
     }
     const newCartItem = new Cart()
@@ -38,6 +42,10 @@ export class CartService {
     newCartItem.quantity = createCartDto.quantity 
     newCartItem.total = newCartItem.quantity * newCartItem.menuItem.food_price
     newCartItem.user = user;
+        this.logger.log(
+      `A(z) ${user.email} felhasználó hozzáadta a(z)${newCartItem.menuItem.food_name} Id: {${newCartItem.menuItem.food_id}} ételt a kosarához (${newCartItem.quantity} darab).`,
+    );
+
     cartRepo.save(newCartItem)
 
   }
@@ -53,6 +61,8 @@ export class CartService {
     .where('userId = :userId', {userId : user.id}).getRawOne() as subTotal
     const sumTotal = sumTotalQuerry.subTotal;
     
+    this.logger.log(`A(z) ${user.email} felhasználó lekérte a kosara tartalmát.`);
+    
     return {shoppingCart : await cartRepo.find({where :{user}, relations : {menuItem : true}}), sumTotal}
   }
 
@@ -65,6 +75,12 @@ export class CartService {
   async update(updateCartDto : UpdateCartDto, user : User) {
     const cartRepo = this.dataSource.getRepository(Cart)
     const cartItemToUpdate = await cartRepo.findOne({where: {user : user, menuItem : updateCartDto.menuItem}, relations : {user : true, menuItem : true}})
+    if (!cartItemToUpdate) {
+      this.logger.warn(
+        `A(z) ${user.email} felhasználó olyan ételt próbált módosítani, ami nincs a kosarában (ID: ${updateCartDto.menuItem.food_id})`,
+      );
+      throw new BadRequestException('Ez az étel nincs a kosaradban');
+    }
     cartItemToUpdate.quantity = updateCartDto.quantity
     cartItemToUpdate.total = updateCartDto.quantity * updateCartDto.menuItem.food_price
     cartRepo.save(cartItemToUpdate)
@@ -78,8 +94,10 @@ export class CartService {
     const cartRepo = this.dataSource.getRepository(Cart)
     const cartItemExist = await cartRepo.findOne({where : {id, user}, relations : {user : true}})
     if(cartItemExist == null) {
+      this.logger.warn(`A(z) ${user.email} felhasználó olyan ételt próbált törölni a kosarából, ami nem létezik (id: ${id})`);
       throw new BadRequestException("Az étel nincs a kosaradban")
     }
+    this.logger.log(`A(z) ${user.email} felhasználó törölte a(z) ${id} azonosítójú ételt a kosarából.`);
     await cartRepo.delete({id : id});
   }
 }
