@@ -3,11 +3,12 @@ import User from 'src/users/entities/user.entity';
 import * as crypto from 'crypto';
 import Token from './token.entity';
 import { DataSource } from 'typeorm';
+import { Logger } from 'nestjs-pino';
 
 
 @Injectable()
 export class AuthService {
-    constructor(private dataSource : DataSource) {}
+    constructor(private dataSource : DataSource, private readonly logger: Logger) {}
     /**
      * ha van már token az adatbázisban
      * @param token 
@@ -35,7 +36,7 @@ export class AuthService {
         token.token = toString
         token.user = user
         await this.dataSource.getRepository(Token).insert(token)
-
+        this.logger.log(`A(z) ${user.email} user új tokent generált magának (bejelentkezett)`)
         return toString
     }
     /**
@@ -47,6 +48,8 @@ export class AuthService {
         const tokenObj =  await tokenRepo.findOne({where: {token}, 
             relations : {user: true}
          });
+        this.logger.log(`A(z) ${tokenObj.user.email} Kijelentkezett`)
+        
         await tokenRepo.delete(tokenObj)
       
     }

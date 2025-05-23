@@ -42,8 +42,8 @@ export class OrderController {
   @UseGuards(AuthGuard('bearer'), RolesGuard)
   @Roles(Role.Admin)
   @ApiOperation({ description: 'minden rendelés lekérdezése kivéve a "Kiszállítva" státuszu rendelés, kizárolag admin joggal' })
-  findAllForAdmins() {
-    return this.orderService.findAllForAdmins();
+  findAllForAdmins(@Request() req) {
+    return this.orderService.findAllForAdmins(req.user);
   }
 
   @Patch(':id')
@@ -58,8 +58,8 @@ export class OrderController {
     name : "updateOrderDto",
     description : "A státusz módosításához szükséges adat"
   } )
-  update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
-    return this.orderService.update(id, updateOrderDto);
+  update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto, @Request() req) {
+    return this.orderService.update(id, updateOrderDto, req.user);
   }
 
 }

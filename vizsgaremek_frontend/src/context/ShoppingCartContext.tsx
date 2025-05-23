@@ -1,7 +1,6 @@
 import { createContext, type ReactNode, useContext, useEffect, useState } from "react"
 import { ShoppingCart } from "../components/ShoppingCart"
-import { useLocalStorage } from "../hooks/useLocalStorage"
-import type { CartItem, CartResponse } from "../types/cartitem"
+import type { CartItem } from "../types/cartitem"
 import { addToCartApi, deleteCartItemsApi, getCartItemsAPi, updateCartItemsApi } from "../api/shoppingCartApi"
 import type { MenuItem } from "../types/menuItem"
 import { toast } from "react-toastify"

@@ -4,10 +4,11 @@ import { CreateUserAdressDto } from './dto/create-user_adress.dto';
 import { UserAddress } from './entities/user_adress.entity';
 import { Order } from 'src/order/entities/order.entity';
 import User from 'src/users/entities/user.entity';
+import { Logger } from 'nestjs-pino';
 
 @Injectable()
 export class UserAdressService {
-  constructor(private dataSource: DataSource) { }
+  constructor(private dataSource: DataSource, private readonly logger : Logger) { }
   /**
    * A szállítási cím létrehozása a user számára
    * @param createUserAdressDto a szállítási cím létrehozásához szükséges adatok
@@ -18,6 +19,7 @@ export class UserAdressService {
     const userAdressRepo = this.dataSource.getRepository(UserAddress)
     const addresses = await userAdressRepo.findBy({user : user})
     if (addresses.length >=3 ) {
+      this.logger.warn(`${user.email} a user megpróbált hozzáadni még egy címet de elérte a max 3-at `)
       throw new BadRequestException(["a maximum felvehető címek száma 3"])
     } 
     const newAdress = new UserAddress()
@@ -27,6 +29,7 @@ export class UserAdressService {
     newAdress.address = createUserAdressDto.address
     newAdress.mobileNumber = createUserAdressDto.mobileNumber
     newAdress.user = user
+    this.logger.log(`${user.email} hozzá adott egy szállítási címet `)
 
     await userAdressRepo.save(newAdress)
 
@@ -39,8 +42,8 @@ export class UserAdressService {
    */
   async findAll(user) {
     const userAdressRepo = this.dataSource.getRepository(UserAddress)
-    
-    return {address: await userAdressRepo.findBy({user : user})}
+      this.logger.log(`${user.email} lekérdezte a szállítási címeit`)
+      return {address: await userAdressRepo.findBy({user : user})}
   }
 
 
@@ -57,13 +60,16 @@ export class UserAdressService {
     const userAdressRepo = this.dataSource.getRepository(UserAddress)
     const Address = await userAdressRepo.findOne({where : {id}, relations : {user : true}})
     if( !Address || Address.user.id != user.id) {
+      this.logger.warn(`${user.email} megpróbált törölni egy nem létező címet`)
       throw new BadRequestException(["A megadott szállítási cím nem található ezen az felhasználon"])
-
     }
     const currentOrder = await orderRepo.findOne({where : {status : Not("Kiszállítva"), user : user, selectedAddress : Address}, relations :{ user : true}})
     if(currentOrder != null) {
+      this.logger.warn(`${user.email}  megpróbált egy olyan címet törölni amihez tartozik egy aktív rendelés`)
       throw new BadRequestException(["Nem törölhetsz olyan szállítási címet amelyik még egy aktív rendeléshez tartozik"])
     }
+    this.logger.warn(`${user.email} törölte az egyik szállítási címet, azonósítója:  ${id} `)
+
     await userAdressRepo.delete(id)
     
   }

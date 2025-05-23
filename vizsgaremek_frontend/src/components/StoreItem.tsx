@@ -26,7 +26,7 @@ export function StoreItem({ food_id, food_name, food_price, food_image, food_des
         <CardMedia
           component="img"
           height="200"
-          image={`http://192.168.1.7:3001/burgers/${food_image}`}
+          image={`${import.meta.env.VITE_API_URL}/burgers/${food_image}`}
           alt={food_name}
           sx={{ objectFit: "contain" }}
         />

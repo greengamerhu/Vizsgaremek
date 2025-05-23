@@ -7,7 +7,9 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 import { Order } from './entities/order.entity';
 import { OrderItems } from './entities/orderItems.entity';
 import { UserAddress } from 'src/user_adress/entities/user_adress.entity';
+import { Logger } from 'nestjs-pino';
 const moment = require('moment');
+
 
 interface subTotal {
   subTotal : string
@@ -16,7 +18,7 @@ interface subTotal {
 
 @Injectable()
 export class OrderService {
-  constructor(private dataSource: DataSource) {}
+  constructor(private dataSource: DataSource, private readonly logger: Logger) {}
   /**
    * A rendelés leadása ami üriti a kosarat
    * @param createOrderDto  megrendelés adatai
@@ -53,6 +55,7 @@ export class OrderService {
     order.orderDate = new Date(date);
     order.user = user
     order.total = 0
+
     await orderRepo.save(order)
     
     // console.log(order)
@@ -77,6 +80,8 @@ export class OrderService {
     let sumTotalQuerry  =  await orderItemRepo.createQueryBuilder('order_items').select('SUM(total) as subTotal') 
     .where('orderId = :orderId ', {orderId : currentOrder.id}).getRawOne() as subTotal
     currentOrder.total =  parseInt(sumTotalQuerry.subTotal)
+    this.logger.log(`${user.email} Leadott egy rendelést `)
+
     await cartRepo.delete({user})
     await orderRepo.save(currentOrder)
   }
@@ -89,13 +94,15 @@ export class OrderService {
     const orderRepo = this.dataSource.getRepository(Order)
     const Activeorder = await orderRepo.findOne({where :{user, status : Not("Kiszállítva")}, relations : {orderItems : true, selectedAddress : true}});
     const orderHistory = await orderRepo.find({where :{user, status : "Kiszállítva"}, relations : {orderItems : true, selectedAddress : true}});
+    this.logger.log(`${user.email} lekérdezte a  rendeléseit `)
+    
     return {activeOrder : Activeorder, orderHistory : orderHistory}; 
   }
   /**
    * Az asztali alkalmazás számára listázza az összes rendelést 
    * @returns az összes rendelés amelyik nincs a végső státuszában
    */
-  async findAllForAdmins() {
+  async findAllForAdmins(user : User) {
     const orderRepo = this.dataSource.getRepository(Order)
     return await orderRepo.find({where : {status : Not("Kiszállítva")}, relations : {orderItems : true}});
   }
@@ -104,10 +111,12 @@ export class OrderService {
    * @param id a rendelés idja
    * @param updateOrderDto a rendelés állapotának modosításához szükséges
    */
-  async update(id: string, updateOrderDto: UpdateOrderDto) {
+  async update(id: string, updateOrderDto: UpdateOrderDto, user: User) {
     const orderRepo = this.dataSource.getRepository(Order)
     const orderToUpdate = await orderRepo.findOne({where :  {id}})
     orderToUpdate.status = updateOrderDto.status
+    this.logger.log(`${user.email} : ${user.role} Megváltoztatta a ${orderToUpdate.id} azonosítójú rendelés állapotát erre: ${orderToUpdate.status}`)
+
     await orderRepo.save(orderToUpdate)
       
   }

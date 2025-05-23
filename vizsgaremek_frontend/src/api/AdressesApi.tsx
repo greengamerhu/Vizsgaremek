@@ -1,4 +1,4 @@
-import type { addressItem, addressResponse } from "../types/adressItem"
+import type { addressItem } from "../types/adressItem"
 import http from "./http"
 
 export async function getAddressesListApi() : Promise<addressItem[]> {

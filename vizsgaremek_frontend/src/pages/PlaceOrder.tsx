@@ -1,9 +1,8 @@
-import { toast, ToastContainer } from "react-toastify";
-import { Box, Button, Card, CardContent, CircularProgress, Divider, FormControl, FormHelperText, InputLabel, MenuItem, Paper, Select, Stack, styled, ThemeProvider, Typography, type SelectChangeEvent,  } from "@mui/material";
-import { useState, type ReactNode } from "react";
+import { toast} from "react-toastify";
+import { Box, Button, Card, CardContent, CircularProgress,  FormControl, InputLabel, MenuItem, Paper, Select, Stack,  ThemeProvider, Typography, type SelectChangeEvent,  } from "@mui/material";
+import { useState,  } from "react";
 import { darkTheme } from "../components/Register";
 import { useShoppingCart } from "../context/ShoppingCartContext";
-import { CartItem } from "../components/CartItem";
 import { getAddresItems } from "../hooks/useAddress";
 import type { addressItem } from "../types/adressItem";
 import { postOrderApi } from "../api/orderApi";
@@ -17,7 +16,7 @@ export function PlaceOrder() {
   const [selectedAddress, setSelectedAddress] = useState<addressItem>();
   const {isLoggedIn} = useAuth()
   const {cartItems, cartTotal} = useShoppingCart()
-  const {AdressItems, loading, error} = getAddresItems()
+  const {AdressItems, loading} = getAddresItems()
   const navigate = useNavigate()
   
   function handleChange(event: SelectChangeEvent): void {
@@ -48,14 +47,14 @@ export function PlaceOrder() {
 
    
   }
-  const Item = styled(Paper)(({ theme }) => ({
-    padding: 30,
-    width : '100%',
-  color: (theme.vars ?? theme).palette.text.secondary,
-  ...theme.applyStyles('dark', {
-    backgroundColor: '#1A2027',
-  }),
-}));
+//   const Item = styled(Paper)(({ theme }) => ({
+//     padding: 30,
+//     width : '100%',
+//   color: (theme.vars ?? theme).palette.text.secondary,
+//   ...theme.applyStyles('dark', {
+//     backgroundColor: '#1A2027',
+//   }),
+// }));
   return ( !isLoggedIn ? (<Navigate to="/" replace></Navigate> ): 
   loading ? (
                <CircularProgress />

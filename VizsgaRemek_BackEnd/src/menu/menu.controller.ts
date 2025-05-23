@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Put, Request } from '@nestjs/common';
 import { MenuService } from './menu.service';
 import  CreateMenuDto  from './dto/create-menu.dto';
 import { UpdateMenuDto } from './dto/update-menu.dto';
@@ -20,8 +20,8 @@ export class MenuController {
     name : "createMenuDto",
     description : "Lásd a Dto szekciónál"
   } )
-  create(@Body() createMenuDto: CreateMenuDto) {
-    return this.menuService.create(createMenuDto);
+  create(@Body() createMenuDto: CreateMenuDto, @Request() req) {
+    return this.menuService.create(createMenuDto, req.user);
   }
 
   @ApiOperation({ description: 'Visszaadja a Menüben lévő ételeket' })
@@ -42,8 +42,8 @@ export class MenuController {
     name : "updateMenuDto",
     description : "Az étel modósításához szükséges adatok"
   } )
-  update(@Param('id') id: string, @Body() updateMenuDto: UpdateMenuDto) {
-    return this.menuService.update(+id, updateMenuDto);
+  update(@Param('id') id: string, @Body() updateMenuDto: UpdateMenuDto, @Request() req) {
+    return this.menuService.update(+id, updateMenuDto, req.user);
   }
 
   @Put
@@ -59,8 +59,8 @@ export class MenuController {
     name : "updateMenuDto",
     description : "Az étel modósításához szükséges adatok"
   } )
-  update2(@Param('id') id: string, @Body() updateMenuDto: UpdateMenuDto) {
-    return this.menuService.update(+id, updateMenuDto);
+  update2(@Param('id') id: string, @Body() updateMenuDto: UpdateMenuDto, @Request() req) {
+    return this.menuService.update(+id, updateMenuDto, req.user);
   }
   
 
@@ -73,7 +73,7 @@ export class MenuController {
     name : "id", 
     description : "Az étel id-ja" 
   })
-  remove(@Param('id') id: number) {
-    return this.menuService.remove(+id);
+  remove(@Param('id') id: number,@Request() req ) {
+    return this.menuService.remove(+id, req.user);
   }
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { addressItem } from "../types/adressItem";
-import { getAddressesListApi, postAddressApi } from "../api/AdressesApi";
+import { getAddressesListApi } from "../api/AdressesApi";
 
 export function getAddresItems(){
     const [AdressItems, setAdressItems] = useState<addressItem[]>([]);

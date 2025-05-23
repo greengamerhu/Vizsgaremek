@@ -2,7 +2,6 @@ import { Container,  Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { StoreItem } from "../components/StoreItem"
 import { getMenuitems } from "../hooks/useMenuItems"
-import type { MenuItem } from "../types/menuItem"
 
 export function Store() {
   const {menuItems, loading, error}  = getMenuitems()

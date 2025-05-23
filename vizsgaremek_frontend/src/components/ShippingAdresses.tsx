@@ -31,7 +31,7 @@ import { useAuth } from '../context/authContext';
 
 const ShippingAddressList: React.FC = () => {
     const {AdressItems, loading, error, refetch} = getAddresItems()
-    const [errorMessage, setErrorMessage] = useState('')
+    const [errorMessage] = useState('')
     const [open, setOpen] = useState(false);
     const {isLoggedIn} = useAuth()
     

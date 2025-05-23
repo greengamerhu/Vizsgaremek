@@ -24,30 +24,52 @@ import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './roles/roles.guard';
 import { LoggerModule } from 'nestjs-pino/LoggerModule';
 
+console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + process.env.NODE_ENV)
 
 @Module({
   imports: [
     LoggerModule.forRoot({
       pinoHttp: {
-        transport: {
-          targets: [
-            {
-              target: 'pino/file',
-              options: { destination: 'logs/app.log', mkdir: true },
-              
-          //      target: 'pino-pretty',
-          // options: {
-          //   colorize: true,
-          //   translateTime: 'yyyy-mm-dd HH:MM:ss',
-          //   ignore: 'pid,hostname',
-          // },
+        autoLogging: true,
+        name: 'dev version',
+        // install 'pino-pretty' package in order to use the following option
+        transport: process.env.NODE_ENV !== 'prod'
+          ? { target: 'pino-pretty',
+            options: {
+              colorize: true,
+              translateTime: 'yyyy-mm-dd HH:MM:ss',
+              ignore: 'pid,hostname,req',
             },
-          ],
-        },
-        
+          }
+          :
+          {
+                target: '@autotelic/pino-seq-transport',
+                options: {
+                  loggerOpts: {
+                    serverUrl: process.env.SEQ_SERVER_URL
+                  }
+                }
+              }
+        // transport: {
+        //   targets: [
+        //     {
+        //       target: 'pino/file',
+        //       options: { destination: 'logs/app.log', mkdir: true },
+
+        //   //      target: 'pino-pretty',
+        //   // options: {
+        //   //   colorize: true,
+        //   //   translateTime: 'yyyy-mm-dd HH:MM:ss',
+        //   //   ignore: 'pid,hostname',
+        //   // },
+        //     },
+        //   ],
+        // },
+
       },
-      
+
     }),
+  
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST || 'localhost',
@@ -56,16 +78,16 @@ import { LoggerModule } from 'nestjs-pino/LoggerModule';
       password: process.env.DB_PASSWORD || '',
       database: process.env.DB_DATABASE || 'database',
       entities: [
-        User, UserAddress, Menu, Token, Cart, Order,  OrderItems
+        User, UserAddress, Menu, Token, Cart, Order, OrderItems
         /* List of entities here */
       ],
       synchronize: true,
-      
+
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public')
     }),
-    
+
     UsersModule,
     UserAdressModule,
     MenuModule,
@@ -77,4 +99,4 @@ import { LoggerModule } from 'nestjs-pino/LoggerModule';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

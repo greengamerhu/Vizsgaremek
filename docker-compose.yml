@@ -11,6 +11,8 @@ services:
     tty: true
     depends_on:
       - backend
+    networks:
+      - nest_network
   backend:
     build: ./VizsgaRemek_BackEnd
     container_name: nest_app

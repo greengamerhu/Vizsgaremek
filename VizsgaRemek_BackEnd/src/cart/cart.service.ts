@@ -93,6 +93,7 @@ export class CartService {
   async remove(id: string, user : User) {
     const cartRepo = this.dataSource.getRepository(Cart)
     const cartItemExist = await cartRepo.findOne({where : {id, user}, relations : {user : true}})
+    console.log("cigany")
     if(cartItemExist == null) {
       this.logger.warn(`A(z) ${user.email} felhasználó olyan ételt próbált törölni a kosarából, ami nem létezik (id: ${id})`);
       throw new BadRequestException("Az étel nincs a kosaradban")

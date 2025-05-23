@@ -4,11 +4,11 @@ import RegisterUserDto from './dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import User from './entities/user.entity';
 import { Role } from 'src/roles/role.enum';
-
+import { Logger } from 'nestjs-pino';
 
 @Injectable()
 export class UsersService {
-  constructor(private dataSource: DataSource) {
+  constructor(private dataSource: DataSource, private readonly logger : Logger) {
     
   }
   /**
@@ -37,7 +37,8 @@ export class UsersService {
     user.email = registerDto.email
     user.password = await bcrypt.hash(registerDto.password, 15)
     user.role = Role.User
-    console.log(user)
+    this.logger.log(`Beregisztráltak egy új email címet ${user.email} `)
+    
     userRepo.save(user)
   }
 

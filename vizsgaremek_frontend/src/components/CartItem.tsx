@@ -1,7 +1,7 @@
 
 import { useShoppingCart } from "../context/ShoppingCartContext"
 import { formatCurrency } from "../utilities/formatCurrency"
-import type { CartItem, CartResponse } from "../types/cartitem"
+import type { CartItem } from "../types/cartitem"
 import { Box, IconButton, Stack, Typography } from "@mui/material"
 import AddIcon from '@mui/icons-material/Add'
 import RemoveIcon from '@mui/icons-material/Remove'
@@ -15,7 +15,7 @@ export function CartItem( item : CartItem) {
     <Stack direction="row" spacing={2} alignItems="center">
   <Box
     component="img"
-    src={`http://192.168.1.7:3001/burgers/${item.menuItem.food_image}`}
+    src={`${import.meta.env.VITE_API_URL}/burgers/${item.menuItem.food_image}`}
     sx={{ width: 100, height: 75, objectFit: 'fill' }}
   />
 

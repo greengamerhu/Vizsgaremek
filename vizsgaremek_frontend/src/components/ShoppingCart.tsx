@@ -1,7 +1,6 @@
 import {  } from "react-bootstrap"
 import { useShoppingCart } from "../context/ShoppingCartContext"
 import { CartItem } from "./CartItem"
-import { formatCurrency } from "../utilities/formatCurrency"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { Box, Button, Drawer, IconButton, Stack, ThemeProvider, Typography } from "@mui/material"
