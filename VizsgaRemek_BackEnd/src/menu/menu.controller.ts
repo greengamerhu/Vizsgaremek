@@ -7,6 +7,7 @@ import { RolesGuard } from 'src/roles/roles.guard';
 import { Roles } from 'src/roles/roles.decorator';
 import { Role } from 'src/roles/role.enum';
 import { ApiOperation, ApiParam } from '@nestjs/swagger';
+import { SkipThrottle } from '@nestjs/throttler';
 
 @Controller('menu')
 export class MenuController {
@@ -23,7 +24,7 @@ export class MenuController {
   create(@Body() createMenuDto: CreateMenuDto, @Request() req) {
     return this.menuService.create(createMenuDto, req.user);
   }
-
+  @SkipThrottle()
   @ApiOperation({ description: 'Visszaadja a Menüben lévő ételeket' })
   @Get()
   findAll() {

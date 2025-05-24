@@ -23,11 +23,17 @@ import { OrderItems } from './order/entities/orderItems.entity';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './roles/roles.guard';
 import { LoggerModule } from 'nestjs-pino/LoggerModule';
+import { minutes, ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + process.env.NODE_ENV)
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot([{
+        name: 'default', // If name is not provided, the name is given as default
+        ttl: minutes(1), // Time window in minutes
+        limit: 100, // Number of allowed requests in that window
+    }]),
     LoggerModule.forRoot({
       pinoHttp: {
         autoLogging: true,
@@ -50,21 +56,7 @@ console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + process.env.NODE_ENV)
                   }
                 }
               }
-        // transport: {
-        //   targets: [
-        //     {
-        //       target: 'pino/file',
-        //       options: { destination: 'logs/app.log', mkdir: true },
-
-        //   //      target: 'pino-pretty',
-        //   // options: {
-        //   //   colorize: true,
-        //   //   translateTime: 'yyyy-mm-dd HH:MM:ss',
-        //   //   ignore: 'pid,hostname',
-        //   // },
-        //     },
-        //   ],
-        // },
+        
 
       },
 
@@ -97,6 +89,9 @@ console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" + process.env.NODE_ENV)
     OrderModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, {
+    provide: APP_GUARD,
+    useClass: ThrottlerGuard
+  }],
 })
 export class AppModule { }
