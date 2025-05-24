@@ -1,5 +1,4 @@
-# config files
-.env
+
 
 # compiled output
 /dist
@@ -7,6 +6,7 @@
 build/
 coverage/
 /backup
+/mysql_backups
 
 # Logs
 logs
