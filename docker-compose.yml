@@ -1,7 +1,10 @@
 
 services:
   web:
-    build: ./vizsgaremek_frontend
+    build: 
+      context: ./vizsgaremek_frontend
+      dockerfile: Dockerfile
+      target: development
     ports:
       - "3000:3000"
     environment:
