@@ -5,6 +5,7 @@ services:
       context: ./vizsgaremek_frontend
       dockerfile: Dockerfile
       target: build
+    env_file: .env.prod
     volumes:
       - frontend_dist:/app/dist
     networks:
@@ -18,7 +19,7 @@ services:
       # - ./vizsgaremek_frontend/dist:/usr/share/nginx/html
       - frontend_dist:/usr/share/nginx/html:ro
     depends_on:
-      # - web
+      - frontendbuildercontainer
       - backend
     networks:
       - nest_network
