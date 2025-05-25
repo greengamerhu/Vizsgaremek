@@ -24,7 +24,7 @@ export default class RegisterUserDto {
     fullName: string;
 
     @IsNotEmpty({message : "A jelszó mező nem lehet üres"})
-    // @IsStrongPassword()
+    @IsStrongPassword()
     @ApiProperty({
         description : "A user jelszava",
         type : 'string',
